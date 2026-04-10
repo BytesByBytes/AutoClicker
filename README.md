@@ -21,7 +21,7 @@ A cross-platform graphical auto-clicker built with Python, `tkinter`, and `pynpu
 
 ### For End Users (Windows)
 If you just want to use the application without installing Python:
-1. Go to the [Releases](https://github.com/your-username/AutoClicker/releases) page.
+1. Go to the [Releases](https://github.com/BytesByBytes/AutoClicker/releases) page.
 2. Download the latest `AutoClicker.exe`.
 3. Double-click the file to run it. No installation is required!
 

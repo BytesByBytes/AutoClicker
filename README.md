@@ -56,6 +56,32 @@ No additional setup is usually required, provided Python and `pynput` are instal
   sudo apt-get install python3-tk
   ```
 
+## Packaging as an Executable (Windows)
+
+To bundle the auto-clicker into a single `.exe` file for Windows 11, follow these steps:
+
+1. **Install PyInstaller**:
+   ```bash
+   pip install pyinstaller
+   ```
+
+2. **Generate the Executable**:
+   Run the following command in the project directory:
+   ```bash
+   pyinstaller --noconsole --onefile --name "AutoClicker" main.py
+   ```
+   - `--noconsole`: Prevents a command prompt window from appearing when you run the app.
+   - `--onefile`: Bundles all dependencies into a single `.exe` file.
+   - `--name "AutoClicker"`: Sets the name of the output file.
+
+3. **Locate the `.exe`**:
+   Once the process finishes, your executable will be in the newly created `dist/` folder.
+
+4. **Distributing on GitHub**:
+   - Go to your repository on GitHub.
+   - Click **Releases** > **Draft a new release**.
+   - Upload the `AutoClicker.exe` from the `dist/` folder as a binary asset.
+
 ## How to Use
 
 1. **Configure Settings**:

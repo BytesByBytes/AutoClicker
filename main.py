@@ -86,7 +86,6 @@ class AutoClickerUI:
 
         # Global variables for keys (synced with vars)
         self.start_stop_key = KeyCode(char=self.start_stop_key_var.get())
-        self.exit_key = KeyCode(char='e')
 
         self.setup_ui()
 
@@ -117,7 +116,7 @@ class AutoClickerUI:
         self.main_frame.columnconfigure(1, weight=1)
 
         # Configure rows for resizing
-        for i in range(7):
+        for i in range(8):
             self.main_frame.rowconfigure(i, weight=1)
 
         # Delay
@@ -146,21 +145,29 @@ class AutoClickerUI:
 
         # Apply Button
         self.apply_button = ttk.Button(self.main_frame, text="Apply Settings", command=self.apply_settings_with_hotkey)
-        self.apply_button.grid(row=4, column=0, columnspan=2, pady=10, sticky=tk.NSEW)
+        self.apply_button.grid(row=4, column=0, pady=10, sticky=tk.NSEW)
+
+        # Exit Button
+        self.exit_button = ttk.Button(self.main_frame, text="Exit Program", command=self.exit_program)
+        self.exit_button.grid(row=4, column=1, pady=10, sticky=tk.NSEW)
 
         # Status
         self.status_label = ttk.Label(self.main_frame, text="Status: Stopped", foreground="red", anchor="center")
         self.status_label.grid(row=5, column=0, columnspan=2, pady=5, sticky=tk.NSEW)
 
+        # Start/Stop Button
+        self.toggle_button = ttk.Button(self.main_frame, text="Start Auto-Clicker", command=self.toggle_clicking)
+        self.toggle_button.grid(row=6, column=0, columnspan=2, pady=5, sticky=tk.NSEW)
+
         # Instructions
-        instruction_text = "Press the shortcut key to toggle.\nPress 'e' to exit program."
+        instruction_text = "Press the shortcut key to toggle.\nUse 'Exit Program' button to close."
         if IS_MACOS:
             instruction_text += "\nNote: Accessibility permissions required."
         elif IS_LINUX:
             instruction_text += "\nNote: May require X11 or uinput permissions."
             
         self.instructions_label = ttk.Label(self.main_frame, text=instruction_text, font=("", 8), justify="center")
-        self.instructions_label.grid(row=6, column=0, columnspan=2, pady=5, sticky=tk.NSEW)
+        self.instructions_label.grid(row=7, column=0, columnspan=2, pady=5, sticky=tk.NSEW)
 
     def on_resize(self, event):
         # We only care about root window resize
@@ -201,6 +208,14 @@ class AutoClickerUI:
             self.key_entry.configure(font=font_style)
             self.root.option_add("*TCombobox*Listbox.font", font_style) # Update listbox font
 
+    def toggle_clicking(self):
+        if self.click_thread.running:
+            self.click_thread.stop_clicking()
+            print("[INFO] Auto-clicker stopped.")
+        else:
+            self.click_thread.start_clicking()
+            print("[INFO] Auto-clicker started.")
+
     def apply_settings_with_hotkey(self):
         self.apply_settings()
         self.update_hotkey()
@@ -229,8 +244,10 @@ class AutoClickerUI:
     def update_status(self):
         if self.click_thread.running:
             self.status_label.config(text="Status: Running", foreground="green")
+            self.toggle_button.config(text="Stop Auto-Clicker")
         else:
             self.status_label.config(text="Status: Stopped", foreground="red")
+            self.toggle_button.config(text="Start Auto-Clicker")
         
         if not self.click_thread.program_running:
             self.root.destroy()
@@ -240,21 +257,17 @@ class AutoClickerUI:
 
     def on_press(self, key):
         if key == self.start_stop_key:
-            if self.click_thread.running:
-                self.click_thread.stop_clicking()
-                print("[INFO] Auto-clicker stopped.")
-            else:
-                self.click_thread.start_clicking()
-                print("[INFO] Auto-clicker started.")
-        elif key == self.exit_key:
-            self.click_thread.exit()
-            self.listener.stop()
-            print("[INFO] Exiting...")
+            self.toggle_clicking()
+
+    def exit_program(self):
+        self.click_thread.exit()
+        self.listener.stop()
+        print("[INFO] Exiting...")
 
 
 if __name__ == "__main__":
     mouse = Controller()
     root = tk.Tk()
     app = AutoClickerUI(root)
-    root.protocol("WM_DELETE_WINDOW", lambda: (app.click_thread.exit(), app.listener.stop(), root.destroy()))
+    root.protocol("WM_DELETE_WINDOW", app.exit_program)
     root.mainloop()

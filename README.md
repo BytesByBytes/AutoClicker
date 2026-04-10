@@ -12,13 +12,20 @@ A cross-platform graphical auto-clicker built with Python, `tkinter`, and `pynpu
 - **Responsive UI**: The window is resizable, and the text scales automatically.
 - **Cross-Platform**: Compatible with Windows, macOS, and Linux.
 
-## Prerequisites
+## Prerequisites (For Developers)
 
-- **Python 3.x**: Ensure you have Python installed. You can download it from [python.org](https://www.python.org/).
-- **pip**: Python's package installer, which usually comes with Python.
+- **Python 3.x**: Required to run from source. Download it from [python.org](https://www.python.org/).
+- **pip**: Python's package installer.
 
 ## Installation
 
+### For End Users (Windows)
+If you just want to use the application without installing Python:
+1. Go to the [Releases](https://github.com/your-username/AutoClicker/releases) page.
+2. Download the latest `AutoClicker.exe`.
+3. Double-click the file to run it. No installation is required!
+
+### For Developers (All Platforms)
 1. **Clone the repository** (or download the source code):
    ```bash
    git clone https://github.com/your-username/AutoClicker.git
@@ -90,8 +97,8 @@ To bundle the auto-clicker into a single `.exe` file for Windows 11, follow thes
    - (Optional) Choose a **Modifier Key** (e.g., Shift + Click).
    - Enter a single character for the **Start/Stop Key** (default is `s`).
 2. **Apply Settings**: Click the **Apply Settings** button to save your configuration.
-3. **Toggle Clicker**: Press the configured hotkey (e.g., `s`) to start or stop clicking.
-4. **Exit**: Press `e` on your keyboard or close the window to exit the application.
+3. **Toggle Clicker**: Use the **Start/Stop Auto-Clicker** button in the UI, or press the configured hotkey (e.g., `s`) to toggle clicking.
+4. **Exit**: Click the **Exit Program** button or close the window to fully terminate the application.
 
 ## Warning
 
